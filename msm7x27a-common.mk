@@ -41,7 +41,7 @@ PRODUCT_PACKAGES += \
     init.qcom.post_boot.sh \
     init.qcom.efs.sync.sh \
     init.lge.target.sh \
-    init.qcom.baseband.sh 
+    init.qcom.baseband.sh
 
 # Wifi
 PRODUCT_COPY_FILES += \
@@ -176,7 +176,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.webview.provider=classic \
     ro.soundrecorder.default_wav2ch=true \
-    ro.ksm.default=1
+    ro.ksm.default=1 \
+    ro.config.low_ram=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heaptargetutilization=0.25 \
