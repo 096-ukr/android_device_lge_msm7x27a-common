@@ -101,7 +101,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     hostapd.accept \
     hostapd.deny \
-    hostapd_default.conf 
+    hostapd_default.conf
 
 PRODUCT_PACKAGES += \
     wpa_supplicant_overlay.conf \
@@ -132,7 +132,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
         rild.libargs=-d/dev/smd0 \
         ril.subscription.types=NV,RUIM \
         DEVICE_PROVISIONED=1 \
-        keyguard.no_require_sim=1 
+        keyguard.no_require_sim=1
 
 ifeq ($(TARGET_BUILD_VARIANT),eng)
 PRODUCT_PROPERTY_OVERRIDES += \
