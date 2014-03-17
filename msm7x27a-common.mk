@@ -153,7 +153,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     hwui.render_dirty_regions=true \
     ro.max.fling_velocity=4000 \
     debug.gr.numframebuffers=3 \
-    dalvik.vm.dexopt-data-only=1 \
     ro.fuse_sdcard=true \
     debug.gralloc.map_fb_memory=true
 
@@ -176,17 +175,19 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.webview.provider=classic \
-    ro.soundrecorder.default_wav2ch=true
+    ro.soundrecorder.default_wav2ch=true \
+    ro.ksm.default=1
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.heaptargetutilization=0.25 \
+    dalvik.vm.jit.codecachesize=0 \
+    dalvik.vm.checkjni=false \
+    dalvik.vm.dexopt-data-only=1 \
+    dalvik.vm.dexopt-flags=v=a,o=v,m=y,u=y
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.cwm.forbid_format="/persist-lg,/mpt" \
-    ro.cwm.forbid_mount="/persist-lg,/mpt" \
-
-# Enable Torch
-PRODUCT_PACKAGES += Torch
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.ksm.default=1
+    ro.cwm.forbid_mount="/persist-lg,/mpt"
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_MANUFACTURER := LGE
