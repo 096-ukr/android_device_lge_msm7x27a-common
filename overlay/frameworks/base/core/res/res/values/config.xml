@@ -25,6 +25,9 @@
 
     <bool name="config_enableLockScreenRotation">true</bool>
 
+    <!-- True will enable the screen-on animation. -->
+    <bool name="config_screenOnAnimation">false</bool>
+
     <!-- The default iface on which to monitor data use -->
     <string name="config_datause_iface">rmnet0</string>
 
