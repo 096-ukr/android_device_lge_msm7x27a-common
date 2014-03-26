@@ -41,17 +41,12 @@ PRODUCT_PACKAGES += \
     init.qcom.post_boot.sh \
     init.qcom.efs.sync.sh \
     init.lge.target.sh \
-    init.qcom.baseband.sh \
-	init.qcom.fm.sh
+    init.qcom.baseband.sh 
 
 # Wifi
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf
 
-# FM
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/init.qcom.fm.sh:system/etc/init.qcom.fm.sh
-	
 # display HALS
 PRODUCT_PACKAGES += \
     libgenlock \

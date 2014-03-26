@@ -387,22 +387,10 @@ status_t AudioPolicyManager::setDeviceConnectionState(audio_devices_t device,
         if(device == AUDIO_DEVICE_OUT_FM) {
             if (state == AudioSystem::DEVICE_STATE_AVAILABLE) {
                 ALOGV("setDeviceConnectionState() changeRefCount Inc");
-<<<<<<< HEAD
-                mOutputs.valueFor(mPrimaryOutput)->changeRefCount(AudioSystem::MUSIC, 1);
-<<<<<<< HEAD
-                newDevice = (audio_devices_t)(getNewDevice(mPrimaryOutput, false) | AUDIO_DEVICE_OUT_FM);
-            } else {
-=======
                 mOutputs.valueFor(mPrimaryOutput)->changeRefCount(AudioSystem::FM, 1);
                 newDevice = (audio_devices_t)(AudioPolicyManagerBase::getNewDevice(mPrimaryOutput, false) | AUDIO_DEVICE_OUT_FM);
             }
             else {
->>>>>>> parent of 04a4711... libaudio: update to new fm volume api
-=======
-                newDevice = (audio_devices_t)(AudioPolicyManagerBase::getNewDevice(mPrimaryOutput, false) | AUDIO_DEVICE_OUT_FM);
-            }
-            else {
->>>>>>> parent of 538fa3e... libaudio: fix fm routing to speakerphone
                 ALOGV("setDeviceConnectionState() changeRefCount Dec");
                 mOutputs.valueFor(mPrimaryOutput)->changeRefCount(AudioSystem::FM, -1);
             }
@@ -2026,18 +2014,9 @@ status_t AudioPolicyManager::checkAndSetVolume(int stream,
     // - the float value returned by computeVolume() changed
     // - the force flag is set
     if (volume != mOutputs.valueFor(output)->mCurVolume[stream] ||
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 #ifdef QCOM_FM_ENABLED
             (stream == AudioSystem::FM) ||
 #endif
->>>>>>> parent of 04a4711... libaudio: update to new fm volume api
-=======
-#ifdef QCOM_FM_ENABLED
-            (stream == AudioSystem::MUSIC) ||
-#endif
->>>>>>> parent of 538fa3e... libaudio: fix fm routing to speakerphone
             force) {
         mOutputs.valueFor(output)->mCurVolume[stream] = volume;
         ALOGVV("checkAndSetVolume() for output %d stream %d, volume %f, delay %d", output, stream, volume, delayMs);
