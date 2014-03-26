@@ -383,7 +383,24 @@ status_t AudioPolicyManager::setDeviceConnectionState(audio_devices_t device,
 #endif
 
         audio_devices_t newDevice = getNewDevice(mPrimaryOutput, false /*fromCache*/);
+#ifdef QCOM_FM_ENABLED
+        if(device == AUDIO_DEVICE_OUT_FM) {
+            if (state == AudioSystem::DEVICE_STATE_AVAILABLE) {
+                ALOGV("setDeviceConnectionState() changeRefCount Inc");
+                mOutputs.valueFor(mPrimaryOutput)->changeRefCount(AudioSystem::FM, 1);
+                newDevice = (audio_devices_t)(AudioPolicyManagerBase::getNewDevice(mPrimaryOutput, false) | AUDIO_DEVICE_OUT_FM);
+            }
+            else {
+                ALOGV("setDeviceConnectionState() changeRefCount Dec");
+                mOutputs.valueFor(mPrimaryOutput)->changeRefCount(AudioSystem::FM, -1);
+            }
 
+            AudioParameter param = AudioParameter();
+            param.addInt(String8(AudioParameter::keyHandleFm), (int)newDevice);
+            ALOGV("setDeviceConnectionState() setParameters handle_fm");
+            mpClientInterface->setParameters(mPrimaryOutput, param.toString());
+        }
+#endif
         if(isInCall() && isTunnelOutputEnabled()) {
            //On each keyRouting call, HAL is routing new device to all open outputs
            //Incall mode device switch is taking time than normal
