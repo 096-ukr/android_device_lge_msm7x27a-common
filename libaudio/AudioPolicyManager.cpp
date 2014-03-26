@@ -389,6 +389,7 @@ status_t AudioPolicyManager::setDeviceConnectionState(audio_devices_t device,
                 ALOGV("setDeviceConnectionState() changeRefCount Inc");
 <<<<<<< HEAD
                 mOutputs.valueFor(mPrimaryOutput)->changeRefCount(AudioSystem::MUSIC, 1);
+<<<<<<< HEAD
                 newDevice = (audio_devices_t)(getNewDevice(mPrimaryOutput, false) | AUDIO_DEVICE_OUT_FM);
             } else {
 =======
@@ -397,12 +398,17 @@ status_t AudioPolicyManager::setDeviceConnectionState(audio_devices_t device,
             }
             else {
 >>>>>>> parent of 04a4711... libaudio: update to new fm volume api
+=======
+                newDevice = (audio_devices_t)(AudioPolicyManagerBase::getNewDevice(mPrimaryOutput, false) | AUDIO_DEVICE_OUT_FM);
+            }
+            else {
+>>>>>>> parent of 538fa3e... libaudio: fix fm routing to speakerphone
                 ALOGV("setDeviceConnectionState() changeRefCount Dec");
                 mOutputs.valueFor(mPrimaryOutput)->changeRefCount(AudioSystem::FM, -1);
             }
 
             AudioParameter param = AudioParameter();
-            param.addInt(String8("handle_fm"), (int)newDevice);
+            param.addInt(String8(AudioParameter::keyHandleFm), (int)newDevice);
             ALOGV("setDeviceConnectionState() setParameters handle_fm");
             mpClientInterface->setParameters(mPrimaryOutput, param.toString());
         }
@@ -687,9 +693,6 @@ void AudioPolicyManager::setForceUse(AudioSystem::force_use usage, AudioSystem::
         break;
     case AudioSystem::FOR_MEDIA:
         if (config != AudioSystem::FORCE_HEADPHONES && config != AudioSystem::FORCE_BT_A2DP &&
-#ifdef QCOM_FM_ENABLED
-            config != AudioSystem::FORCE_SPEAKER &&
-#endif
             config != AudioSystem::FORCE_WIRED_ACCESSORY &&
             config != AudioSystem::FORCE_ANALOG_DOCK &&
             config != AudioSystem::FORCE_DIGITAL_DOCK && config != AudioSystem::FORCE_NONE &&
@@ -1655,7 +1658,7 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
             }
             break;
         }
-#ifdef QCOM_FM_ENABLED
+#if defined(QCOM_FM_ENABLED) || defined(STE_FM)
         if (mAvailableOutputDevices & AUDIO_DEVICE_OUT_FM) {
             if (mForceUse[AudioSystem::FOR_MEDIA] == AudioSystem::FORCE_SPEAKER) {
                 device &= ~(AUDIO_DEVICE_OUT_WIRED_HEADSET);
@@ -2024,11 +2027,17 @@ status_t AudioPolicyManager::checkAndSetVolume(int stream,
     // - the force flag is set
     if (volume != mOutputs.valueFor(output)->mCurVolume[stream] ||
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 #ifdef QCOM_FM_ENABLED
             (stream == AudioSystem::FM) ||
 #endif
 >>>>>>> parent of 04a4711... libaudio: update to new fm volume api
+=======
+#ifdef QCOM_FM_ENABLED
+            (stream == AudioSystem::MUSIC) ||
+#endif
+>>>>>>> parent of 538fa3e... libaudio: fix fm routing to speakerphone
             force) {
         mOutputs.valueFor(output)->mCurVolume[stream] = volume;
         ALOGVV("checkAndSetVolume() for output %d stream %d, volume %f, delay %d", output, stream, volume, delayMs);
